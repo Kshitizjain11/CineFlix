@@ -6,4 +6,5 @@ scikit-learn
 rich 
 nltk
 streamlit
-pickle
+requests
+python-dotenv
