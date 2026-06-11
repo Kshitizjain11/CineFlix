@@ -44,6 +44,7 @@ def fetch_poster(movie_id):
 def recommend(movie):
     recommended_movies = []
     recommended_movies_posters = []
+    recommended_movies_posters = []
     movie_index = movies[movies['title']==movie].index[0]
     distances = similarity[movie_index]
     movie_list = sorted(list(enumerate(distances)),reverse=True,key=lambda x:x[1])[1:6]
@@ -51,7 +52,10 @@ def recommend(movie):
     for i in movie_list:
         recommended_movies.append(movies.iloc[i[0]].title)
         recommended_movies_posters.append(fetch_poster(movies.iloc[i[0]].movie_id))
+        recommended_movies_posters.append(fetch_poster(movies.iloc[i[0]].movie_id))
     
+    return recommended_movies,recommended_movies_posters
+
     return recommended_movies,recommended_movies_posters
 
 
@@ -61,6 +65,20 @@ st.title('CinePlix - Movie Recommender System')
 
 
 selected_movie = st.selectbox('Tell the movie you recently watched?',movies_list)
+
+if st.button("Recommend"):
+    names, posters = recommend(selected_movie)
+
+    cols = st.columns(len(names))
+
+    for col, name, poster in zip(cols, names, posters):
+        with col:
+            st.text(name)
+            if poster:
+                st.image(poster)
+            else:
+                st.caption("Poster unavailable")
+       
 
 if st.button("Recommend"):
     names, posters = recommend(selected_movie)
