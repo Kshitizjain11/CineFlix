@@ -1,0 +1,7 @@
+ipykernel
+pydantic
+numpy
+pandas
+scikit-learn
+rich 
+nltk
