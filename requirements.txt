@@ -5,3 +5,5 @@ pandas
 scikit-learn
 rich 
 nltk
+streamlit
+pickle
