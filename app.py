@@ -26,7 +26,7 @@ movies_list = movies['title'].values
 
 
 def fetch_poster(movie_id):
-    api_key = os_getenv('TMDB_API_KEY')
+    api_key = os_getenv("TMDB_API_KEY") or st.secrets["TMDB_API_KEY"]
     if not api_key:
         return ""
 
