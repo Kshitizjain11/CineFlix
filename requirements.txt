@@ -3,7 +3,9 @@ pydantic
 numpy
 pandas
 scikit-learn
+joblib
 rich 
 nltk
 streamlit
-pickle
+requests
+python-dotenv
