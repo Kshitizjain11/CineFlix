@@ -12,14 +12,11 @@ load_dotenv()
 def get_movies_and_similarity():
     movies = pickle_load(open('movies.pkl', 'rb'))
     similarity_joblib = Path('similarity.joblib')
-    similarity_pkl = Path('similarity.pkl')
 
     if similarity_joblib.exists():
         similarity = joblib.load(similarity_joblib)
-    elif similarity_pkl.exists():
-        similarity = pickle_load(open(similarity_pkl, 'rb'))
     else:
-        raise FileNotFoundError('Missing similarity file. Add similarity.joblib (preferred) or similarity.pkl.')
+        raise FileNotFoundError('Missing similarity.joblib. Add the compressed similarity artifact to the repo.')
 
     return movies, similarity
 
@@ -37,13 +34,15 @@ def fetch_poster(movie_id):
     response = requests.get(url)
     data = response.json()
 
-    poster_path = data['poster_path']
+    poster_path = data.get('poster_path')
+    if not poster_path:
+        return ""
+
     return 'https://image.tmdb.org/t/p/original' + poster_path
 
 
 def recommend(movie):
     recommended_movies = []
-    recommended_movies_posters = []
     recommended_movies_posters = []
     movie_index = movies[movies['title']==movie].index[0]
     distances = similarity[movie_index]
@@ -52,10 +51,7 @@ def recommend(movie):
     for i in movie_list:
         recommended_movies.append(movies.iloc[i[0]].title)
         recommended_movies_posters.append(fetch_poster(movies.iloc[i[0]].movie_id))
-        recommended_movies_posters.append(fetch_poster(movies.iloc[i[0]].movie_id))
     
-    return recommended_movies,recommended_movies_posters
-
     return recommended_movies,recommended_movies_posters
 
 
@@ -78,18 +74,5 @@ if st.button("Recommend"):
                 st.image(poster)
             else:
                 st.caption("Poster unavailable")
-       
-
-if st.button("Recommend"):
-    names, posters = recommend(selected_movie)
-
-    cols = st.columns(len(names))
-
-    for col, name, poster in zip(cols, names, posters):
-        with col:
-            st.text(name)
-            if poster:
                 st.image(poster)
-            else:
-                st.caption("Poster unavailable")
-       
+
