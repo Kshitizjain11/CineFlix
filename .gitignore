@@ -3,6 +3,7 @@
 # website: http://jupyter.org/
 similarity.pkl
 
+similarity.pkl
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 # IPython

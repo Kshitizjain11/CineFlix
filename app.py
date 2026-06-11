@@ -1,14 +1,24 @@
 import streamlit as st
 import requests
 from os import getenv as os_getenv
+from pathlib import Path
 from dotenv import load_dotenv 
-from similarity_utils import load_movies_and_similarity
+from pickle import load as pickle_load
+import joblib
 
 load_dotenv()
 
 @st.cache_resource(show_spinner=False)
 def get_movies_and_similarity():
-    return load_movies_and_similarity()
+    movies = pickle_load(open('movies.pkl', 'rb'))
+    similarity_joblib = Path('similarity.joblib')
+
+    if similarity_joblib.exists():
+        similarity = joblib.load(similarity_joblib)
+    else:
+        raise FileNotFoundError('Missing similarity.joblib. Add the compressed similarity artifact to the repo.')
+
+    return movies, similarity
 
 
 movies, similarity = get_movies_and_similarity()
@@ -16,7 +26,7 @@ movies_list = movies['title'].values
 
 
 def fetch_poster(movie_id):
-    api_key = os_getenv('TMDB_API_KEY') or os_getenv('TMBD_API_KEY')
+    api_key = os_getenv('TMDB_API_KEY')
     if not api_key:
         return ""
 
@@ -64,4 +74,5 @@ if st.button("Recommend"):
                 st.image(poster)
             else:
                 st.caption("Poster unavailable")
-       
+                st.image(poster)
+
