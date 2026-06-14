@@ -9,3 +9,5 @@ nltk
 streamlit
 requests
 python-dotenv
+seaborn
+matplotlib
