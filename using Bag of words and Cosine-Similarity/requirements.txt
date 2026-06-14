@@ -1,0 +1,11 @@
+ipykernel
+pydantic
+numpy
+pandas
+scikit-learn
+joblib
+rich 
+nltk
+streamlit
+requests
+python-dotenv
