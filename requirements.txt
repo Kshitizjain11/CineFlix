@@ -11,3 +11,5 @@ requests
 python-dotenv
 seaborn
 matplotlib
+fastapi
+httpx
