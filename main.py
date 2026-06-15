@@ -46,7 +46,7 @@ class TMDBMovieCard(BaseModel):
     title: str
     poster_url : Optional[str] = None
     release_date : Optional[str] = None
-    vote_average : Optional[str] = None
+    vote_average : Optional[float] = None
     
 class TMDBMovieDetails(BaseModel):
     tmdb_id : int
