@@ -8,10 +8,11 @@ from typing import Optional,Dict,Any,List,Tuple
 from pydantic import BaseModel,Field
 import httpx
 import pickle
+from streamlit import secrets
 
 load_dotenv()
 
-TMDB_API_KEY = os_getenv('TMDB_API_KEY')
+TMDB_API_KEY = os_getenv('TMDB_API_KEY') or secrets["TMDB_API_KEY"]
 
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
